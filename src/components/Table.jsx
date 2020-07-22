@@ -5,10 +5,8 @@ function Table(props) {
     const [row,setRow] = useState({key:null,value:{}});
     const [editValue,setEditVaue] = useState({});
     const [eMode,seteMode] = useState(false)
-    const onEdit = (e,data) => {
-        const eValue = {...data};
-        setEditVaue(eValue);
-        const i = rows.indexOf(data);
+    const onEdit = (e,data,i) => {
+        setEditVaue(data);
         setRow({key:i,value:data})
         seteMode(true)
 
@@ -38,10 +36,10 @@ function Table(props) {
             setEditVaue({})
    }
 
-   const removeData = (data,i) => {
+   const cancel = (data,i) => {
     let rowsNew = rows;
-    rowsNew.splice(i,1);
-    setNewValues([...rows,row.value])
+    rowsNew.splice(i,1,row.value);
+    setNewValues(rowsNew)
     setEditVaue({});
     setRow({key:null,value:{}})
     seteMode(false);
@@ -58,20 +56,29 @@ function Table(props) {
             </thead>
            <tbody>
                    {rows.map((r,i) =>
-                    <>{((!eMode &&   r.name!== '')) ? <tr>
-                         {console.log('1st condition')}
+                    <>{(((!eMode &&   r.name!== '') || (editValue.name !== r.name))) ? <tr>
+                         {console.log('1st condition',i,row.key)}
                         <td>{r.name === '' ?  <input value={row.value.name} placeholder="Name" onBlur={onEnter} onChange={(e) => onChange(e,i,'name')} /> : r.name}</td>
                    <td>{r.dept === '' ?  <input placeholder="Department" value={row.value.dept} onBlur={onEnter} onChange={(e) => onChange(e,i,'dept')} /> : r.dept}</td>
                    <td>{r.skills === '' ?  <input placeholder="Skills" value={row.value.skills} onBlur={onEnter} onChange={(e) => onChange(e,i,'skills')} /> : r.skills}</td>
-                   {(r.name !== '') &&  (<td><a href="#" onClick={(e) => onEdit(e,r)}>Edit</a><br/>
-                   <a href="#" onClick={( e) => onDelete(e,r)}>Delete</a></td>)}
+                   {(r.name !== '') ?  (<td><a href="#" onClick={(e) => onEdit(e,r,i)}>Edit</a><br/>
+                   <a href="#" onClick={( e) => onDelete(e,r)}>Delete</a></td>) : (    <td>
+                    
+                           <a href="#" onClick={() => saveValue(r,i)}>Save</a>
+                           {/* <br />
+                             <a href="#" onClick={(e) => cancel(e)}>Cancel</a> */}
+                           </td> 
+                           )}
                    </tr> : <tr>
+                   {console.log('2nd condition',i,row.value.name)}
                        <td> <input value={row.value.name} placeholder="Name" onBlur={(e) =>onEnter(e,i,'name')} onChange={(e) => onChange(e,i,'name')} /></td>
                        <td> <input value={row.value.dept} placeholder="Department" onBlur={(e) =>onEnter(e,i,'dept')} onChange={(e) => onChange(e,i,'dept')} /></td>
                        <td> <input value={row.value.skills} placeholder="Skills" onBlur={(e) =>onEnter(e,i,'skills')} onChange={(e) => onChange(e,i,'skills')} /></td>
                        <td>
-                       {/* <a href="#" onClick={(e) => saveValue(e)}>Save</a> */}
-                           <a href="#" onClick={() => removeData(r,i)}>Save</a></td>
+                           <a href="#" onClick={() => saveValue(r,i)}>Save</a>
+                           {/* <br />
+                             <a href="#" onClick={(e) => cancel(e)}>Cancel</a> */}gi
+                           </td> 
                        </tr>}
                    </>) 
                    }
