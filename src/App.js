@@ -37,6 +37,8 @@ function App() {
     setRows([...rowsNew]);
    
   }
+
+  console.log("Parent",rows);
   return (
     <div className="App">
     <h3>Welcome To Replicon HR System</h3>
