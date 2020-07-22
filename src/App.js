@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import './App.css';
 import Table from './components/Table';
 import Search from './components/Search';
@@ -9,6 +9,11 @@ function App() {
     dept:'Development',
     skills:'C# ,Javascript'
   }]);
+
+  useEffect(() => {
+  localStorage.setItem('rows',rows);
+  return () => localStorage.removeItem('rows');
+  },[])
   const [keyword,setKeyword] = useState('')
   const onSearch = (e) => {
     const filteredRows = rows.filter(row => row.name === e.target.value || row.dept === e.target.value);
@@ -21,7 +26,7 @@ function App() {
   }
   const onAdd =(e) => {
     const values = rows;
-    setRows([...values,{name:'',dept:'',skills:[]}]);
+    setRows([...values,{name:'',dept:'',skills:''}]);
   }
 
   const newValues = (rows) =>{
@@ -32,7 +37,8 @@ function App() {
 
   const deleteRow = data => {
     const rowsNew = [...rows];
-    rowsNew.splice(data,1);
+    const i = rowsNew.indexOf(data)
+    rowsNew.splice(i,1);
     localStorage.setItem('rows',rowsNew);
     setRows([...rowsNew]);
    
@@ -46,7 +52,7 @@ function App() {
        <br/>
        <br/>
        {rows.length > 0 ?
-       <Table rows={rows} setRows={setRows} setNewValues={newValues} deleteRow={deleteRow} />
+       <Table rows={rows} setRows={setRows} setNewValues={newValues} deleteRow={deleteRow} addMode={rows.find(r => r.name === '' || r.dept === '' || r.skills === '')} />
       : <>No Values in the table, please add new employees</>
       }
        <br />

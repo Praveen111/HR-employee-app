@@ -1,12 +1,17 @@
 import React, {useState} from 'react';
 
 function Table(props) {
-    const {rows,setNewValues,deleteRow} = props;
-    const [row,setRow] = useState({key:0,value:{}});
+    const {rows,setNewValues,deleteRow,addMode} = props;
+    const [row,setRow] = useState({key:null,value:{}});
     const [editValue,setEditVaue] = useState({});
+    const [eMode,seteMode] = useState(false)
     const onEdit = (e,data) => {
         const eValue = {...data};
         setEditVaue(eValue);
+        const i = rows.indexOf(data);
+        setRow({key:i,value:data})
+        seteMode(true)
+
     }
 
     const onDelete = (e,data) => {
@@ -14,31 +19,34 @@ function Table(props) {
     }
 
     const onChange = (e,i,field) => {
-          let value = {...rows[i],[field] :e.target.value};
-          setRow({key:i,value});
-          setEditVaue({...rows[i],[field] :e.target.value});
+        let val = row.value;
+          let value = {...val,[field] :e.target.value};
+          console.log("Val on change",val)
+           setRow({key:i,value});
+          setEditVaue(row.value);
     }
 
-    const onEnter = (e) => {
-            let rowsNew = rows;
-            rowsNew.splice(row.key,1,row.value);
-            setNewValues(rowsNew)
+    const onEnter = (e,i,field) => {
+          setEditVaue(row.value);
         }
 
-//    const saveValue = (e) => {
-//             let rowsNew = rows;
-//             rowsNew.splice(row.key,1,row.value);
-//             setNewValues(rowsNew)
-//             setEditVaue({})
-//    }
-
-   const removeData = data => {
-    // let rowsNew = rows;
-    // rowsNew.splice(data,1);
-    // setNewValues(rowsNew)
-    setEditVaue({})
+   const saveValue = (e) => {
+            let rowsNew = rows;
+            rowsNew.splice(row.key,1,row.value);
+            setNewValues(rowsNew);
+            setRow({key:null,value:{}})
+            setEditVaue({})
    }
-console.log("Editvalue",editValue,row.value)
+
+   const removeData = (data,i) => {
+    let rowsNew = rows;
+    rowsNew.splice(i,1);
+    setNewValues([...rows,row.value])
+    setEditVaue({});
+    setRow({key:null,value:{}})
+    seteMode(false);
+   }
+
   return (
     <>
        <table border="1" className="center">
@@ -50,18 +58,20 @@ console.log("Editvalue",editValue,row.value)
             </thead>
            <tbody>
                    {rows.map((r,i) =>
-                    <>{editValue.name !== r.name || editValue === {} ? <tr><td>{r.name === '' && row.value.name !== r.name ?  <input placeholder="Name" onBlur={onEnter} onKeyDown={onEnter} onChange={(e) => onChange(e,i,'name')} /> : r.name}</td>
-                   <td>{r.dept === '' ?  <input placeholder="Department" onBlur={onEnter} onKeyDown={onEnter} onChange={(e) => onChange(e,i,'dept')} /> : r.dept}</td>
-                   <td>{r.skills.length === 0 ?  <input placeholder="Skills" onBlur={onEnter} onKeyDown={onEnter} onChange={(e) => onChange(e,i,'skills')} /> : r.skills}</td>
-                   {r.name !== '' && (<td><a href="#" onClick={(e) => onEdit(e,r)}>Edit</a><br/>
-                   <a href="#" onClick={(e) => onDelete(e,r)}>Delete</a></td>)}
+                    <>{((!eMode &&   r.name!== '')) ? <tr>
+                         {console.log('1st condition')}
+                        <td>{r.name === '' ?  <input value={row.value.name} placeholder="Name" onBlur={onEnter} onChange={(e) => onChange(e,i,'name')} /> : r.name}</td>
+                   <td>{r.dept === '' ?  <input placeholder="Department" value={row.value.dept} onBlur={onEnter} onChange={(e) => onChange(e,i,'dept')} /> : r.dept}</td>
+                   <td>{r.skills === '' ?  <input placeholder="Skills" value={row.value.skills} onBlur={onEnter} onChange={(e) => onChange(e,i,'skills')} /> : r.skills}</td>
+                   {(r.name !== '') &&  (<td><a href="#" onClick={(e) => onEdit(e,r)}>Edit</a><br/>
+                   <a href="#" onClick={( e) => onDelete(e,r)}>Delete</a></td>)}
                    </tr> : <tr>
-                       <td> <input value={editValue.name} placeholder="Name" onBlur={onEnter} onChange={(e) => onChange(e,i,'name')} /></td>
-                       <td> <input value={editValue.dept} placeholder="Department" onBlur={onEnter} onChange={(e) => onChange(e,i,'dept')} /></td>
-                       <td> <input value={editValue.skills} placeholder="Skills" onBlur={onEnter} onChange={(e) => onChange(e,i,'skills')} /></td>
+                       <td> <input value={row.value.name} placeholder="Name" onBlur={(e) =>onEnter(e,i,'name')} onChange={(e) => onChange(e,i,'name')} /></td>
+                       <td> <input value={row.value.dept} placeholder="Department" onBlur={(e) =>onEnter(e,i,'dept')} onChange={(e) => onChange(e,i,'dept')} /></td>
+                       <td> <input value={row.value.skills} placeholder="Skills" onBlur={(e) =>onEnter(e,i,'skills')} onChange={(e) => onChange(e,i,'skills')} /></td>
                        <td>
                        {/* <a href="#" onClick={(e) => saveValue(e)}>Save</a> */}
-                           <a href="#" onClick={() => removeData(r)}>Save</a></td>
+                           <a href="#" onClick={() => removeData(r,i)}>Save</a></td>
                        </tr>}
                    </>) 
                    }
