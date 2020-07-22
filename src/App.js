@@ -47,7 +47,7 @@ function App() {
   console.log("Parent",rows);
   return (
     <div className="App">
-    <h3>Welcome To Replicon HR System</h3>
+    <h3>Welcome To HR System</h3>
        <Search onSearch={onSearch} />
        <br/>
        <br/>

@@ -77,7 +77,7 @@ function Table(props) {
                        <td>
                            <a href="#" onClick={() => saveValue(r,i)}>Save</a>
                            {/* <br />
-                             <a href="#" onClick={(e) => cancel(e)}>Cancel</a> */}gi
+                             <a href="#" onClick={(e) => cancel(e)}>Cancel</a> */}
                            </td> 
                        </tr>}
                    </>) 
