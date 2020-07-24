@@ -17,12 +17,11 @@ function App() {
 
   const onSearch = (e) => {
     if(e.target.value.length > 0) {
-      const filteredRows = rows.filter(row => row.name.search(e.target.value) > -1 || row.dept.search(e.target.value) > -1 || row.skills.search(e.target.value)  > -1);
+      const filteredRows = rows.filter(row => row.name.includes(e.target.value)  || row.dept.includes(e.target.value) || row.skills.includes(e.target.value));
       if(filteredRows.length > 0) {
         setRows([...filteredRows]);
       } else {
-        const rowsold = JSON.parse(localStorage.getItem('rows'));
-        setRows(rowsold);
+        setRows(JSON.parse(localStorage.getItem('rows')));
       }
     } else {
       setRows(JSON.parse(localStorage.getItem('rows')));
