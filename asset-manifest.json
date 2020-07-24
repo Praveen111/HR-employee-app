@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/HR-employee-app/static/css/main.5b25853d.chunk.css",
-    "main.js": "/HR-employee-app/static/js/main.df1ca613.chunk.js",
-    "main.js.map": "/HR-employee-app/static/js/main.df1ca613.chunk.js.map",
+    "main.js": "/HR-employee-app/static/js/main.274b46d2.chunk.js",
+    "main.js.map": "/HR-employee-app/static/js/main.274b46d2.chunk.js.map",
     "runtime-main.js": "/HR-employee-app/static/js/runtime-main.1ccfc025.js",
     "runtime-main.js.map": "/HR-employee-app/static/js/runtime-main.1ccfc025.js.map",
-    "static/js/2.b4d8958b.chunk.js": "/HR-employee-app/static/js/2.b4d8958b.chunk.js",
-    "static/js/2.b4d8958b.chunk.js.map": "/HR-employee-app/static/js/2.b4d8958b.chunk.js.map",
+    "static/js/2.84c4db44.chunk.js": "/HR-employee-app/static/js/2.84c4db44.chunk.js",
+    "static/js/2.84c4db44.chunk.js.map": "/HR-employee-app/static/js/2.84c4db44.chunk.js.map",
     "index.html": "/HR-employee-app/index.html",
-    "precache-manifest.35f6fe07850214969e417586575a8ea2.js": "/HR-employee-app/precache-manifest.35f6fe07850214969e417586575a8ea2.js",
+    "precache-manifest.a3fb1e642e21f6e99dcd713b558bd662.js": "/HR-employee-app/precache-manifest.a3fb1e642e21f6e99dcd713b558bd662.js",
     "service-worker.js": "/HR-employee-app/service-worker.js",
     "static/css/main.5b25853d.chunk.css.map": "/HR-employee-app/static/css/main.5b25853d.chunk.css.map",
-    "static/js/2.b4d8958b.chunk.js.LICENSE.txt": "/HR-employee-app/static/js/2.b4d8958b.chunk.js.LICENSE.txt"
+    "static/js/2.84c4db44.chunk.js.LICENSE.txt": "/HR-employee-app/static/js/2.84c4db44.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.1ccfc025.js",
-    "static/js/2.b4d8958b.chunk.js",
+    "static/js/2.84c4db44.chunk.js",
     "static/css/main.5b25853d.chunk.css",
-    "static/js/main.df1ca613.chunk.js"
+    "static/js/main.274b46d2.chunk.js"
   ]
 }
