@@ -6,8 +6,13 @@ function Table(props) {
     const [eMode,seteMode] = useState(false);
 
     const onEdit = (e,data,i) => {
+      if(row.key === null && addMode === undefined) {
         seteMode(true);
-        setRow({key:i,value:data});  
+        setRow({key:i,value:data}); 
+      } else  {
+        alert('Please cancel/save to edit other employee details')
+      }
+        
     }
 
     const onDelete = (e,data) => {
@@ -21,16 +26,20 @@ function Table(props) {
     }
 
    const saveValue = (e) => {
-            let rowsNew = rows;
-            rowsNew.splice(row.key,1,row.value);
+           
             const {name,dept,skills} = row.value;
-            if(name === '' || dept === '' || skills === '') {
+          console.log('save',row.value)
+            if(name === undefined || dept === undefined || skills === undefined) {
               alert('Please add values to save');
               return;
+            } else {
+              let rowsNew = rows;
+              rowsNew.splice(row.key,1,row.value);
+              setNewValues(rowsNew);
+              setRow({key:null,value:{}})
+              seteMode(false);
             }
-            setNewValues(rowsNew);
-            setRow({key:null,value:{}})
-            seteMode(false);
+         
    }
 
    const cancel = () => {
@@ -38,7 +47,7 @@ function Table(props) {
     seteMode(false);
    }
 
-const inputElement = (placeHolder,i,field) => ( <input placeholder={placeHolder}  value={row['value'][field]} onChange={(e) => onChange(e,i,field)} />);
+const inputElement = (placeHolder,i,field) => ( <input placeholder={placeHolder}  value={row['value'][field] !== rows[i][field] ? row['value'][field] : rows[i][field]} onChange={(e) => onChange(e,i,field)} />);
   return (
     <>
        <table border="1" className="center">

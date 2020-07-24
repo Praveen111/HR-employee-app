@@ -14,9 +14,8 @@ function App() {
   localStorage.setItem('rows',JSON.stringify(rows));
   return () => localStorage.removeItem('rows');
   },[])
-  const [keyword,setKeyword] = useState('')
-  const onSearch = (e) => {
 
+  const onSearch = (e) => {
     if(e.target.value.length > 0) {
       const filteredRows = rows.filter(row => row.name.search(e.target.value) > -1 || row.dept.search(e.target.value) > -1 || row.skills.search(e.target.value)  > -1);
       if(filteredRows.length > 0) {
@@ -39,7 +38,6 @@ function App() {
 
   const newValues = (rows) =>{
     const values = rows;
-    console.log('new Values',rows);
     setRows([...values]);
     localStorage.setItem('rows',JSON.stringify(values));
   }
