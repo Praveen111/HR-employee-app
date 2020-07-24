@@ -3,13 +3,11 @@ import React, {useState} from 'react';
 function Table(props) {
     const {rows,setNewValues,deleteRow,addMode} = props;
     const [row,setRow] = useState({key:null,value:{}});
-    const [editValue,setEditVaue] = useState({});
-    const [eMode,seteMode] = useState(false)
-    const onEdit = (e,data,i) => {
-        setEditVaue(data);
-        setRow({key:i,value:data})
-        seteMode(true)
+    const [eMode,seteMode] = useState(false);
 
+    const onEdit = (e,data,i) => {
+        seteMode(true);
+        setRow({key:i,value:data});  
     }
 
     const onDelete = (e,data) => {
@@ -20,31 +18,27 @@ function Table(props) {
         let val = row.value;
           let value = {...val,[field] :e.target.value};
            setRow({key:i,value});
-          setEditVaue(row.value);
     }
-
-    const onEnter = (e,i,field) => {
-          setEditVaue(row.value);
-        }
 
    const saveValue = (e) => {
             let rowsNew = rows;
             rowsNew.splice(row.key,1,row.value);
+            const {name,dept,skills} = row.value;
+            if(name === '' || dept === '' || skills === '') {
+              alert('Please add values to save');
+              return;
+            }
             setNewValues(rowsNew);
             setRow({key:null,value:{}})
-            setEditVaue({});
             seteMode(false);
    }
 
-   const cancel = (e,data,i) => {
-    let rowsNew = rows;
-    rowsNew.pop();
-    setNewValues(rowsNew)
-    setEditVaue({});
+   const cancel = () => {
     setRow({key:null,value:{}})
     seteMode(false);
    }
 
+const inputElement = (placeHolder,i,field) => ( <input placeholder={placeHolder}  value={row['value'][field]} onChange={(e) => onChange(e,i,field)} />);
   return (
     <>
        <table border="1" className="center">
@@ -56,28 +50,32 @@ function Table(props) {
             </tr>
            <tbody>
                    {rows.map((r,i) =>
-                    <>{(((!eMode &&   r.name!== ''))) ? <tr>
-                        <td>{r.name === '' ?  <input placeholder="Name"  value={row.value.name}  onBlur={onEnter} onChange={(e) => onChange(e,i,'name')} /> : r.name}</td>
-                   <td>{r.dept === '' ?  <input placeholder="Department" value={row.value.dept} onBlur={onEnter} onChange={(e) => onChange(e,i,'dept')} /> : r.dept}</td>
-                   <td>{r.skills === '' ?  <input placeholder="Skills" value={row.value.skills} onBlur={onEnter} onChange={(e) => onChange(e,i,'skills')} /> : r.skills}</td>
-                   {(r.name !== '') ?  (<td><a href="#" onClick={(e) => onEdit(e,r,i)}>Edit</a><br/>
-                   <a href="#" onClick={( e) => onDelete(e,r)}>Delete</a></td>) : (    <td>
+                    <>{(((!eMode || i !== row.key))) ? 
+                    <tr>
+                        <td>{r.name === '' ?  inputElement('Name',i,'name') : r.name}</td>
+                        <td>{r.dept === '' ?  inputElement('Department',i,'dept') : r.dept}</td>
+                        <td>{r.skills === '' ? inputElement('Skills',i,'skills')  : r.skills}</td>
+                        {(r.name !== '') ?  (<td><a href="#" onClick={(e) => onEdit(e,r,i)}>Edit</a><br/>
+                              <a href="#" onClick={( e) => onDelete(e,r)}>Delete</a></td>) : (    
+                              
+                              <td>
                     
-                           <a href="#" onClick={() => saveValue(r,i)}>Save</a>
-                           <br />
-                             <a href="#" onClick={(e) => cancel(e,r,i)}>Cancel</a>
-                           </td> 
+                                     <a href="#" onClick={() => saveValue(r,i)}>Save</a>
+                                        <br />
+                                     <a href="#" onClick={(e) => cancel()}>Cancel</a>
+                             </td> 
                            )}
-                   </tr> : <tr>
-                       <td> <input value={row.value.name} placeholder="Name" onBlur={(e) =>onEnter(e,i,'name')} onChange={(e) => onChange(e,i,'name')} /></td>
-                       <td> <input value={row.value.dept} placeholder="Department" onBlur={(e) =>onEnter(e,i,'dept')} onChange={(e) => onChange(e,i,'dept')} /></td>
-                       <td> <input value={row.value.skills} placeholder="Skills" onBlur={(e) =>onEnter(e,i,'skills')} onChange={(e) => onChange(e,i,'skills')} /></td>
+                    </tr> : 
+                    (<tr>
+                       <td>{inputElement('Name',i,'name')}</td>
+                       <td> {inputElement('Department',i,'dept')}</td>
+                       <td>{inputElement('Skills',i,'skills')}</td>
                        <td>
                            <a href="#" onClick={() => saveValue(r,i)}>Save</a>
                            <br />
-                             <a href="#" onClick={(e) => cancel(e,r,i)}>Cancel</a>
+                             <a href="#" onClick={(e) => cancel()}>Cancel</a>
                            </td> 
-                       </tr>}
+                       </tr>)}
                    </>) 
                    }
                

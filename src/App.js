@@ -16,13 +16,21 @@ function App() {
   },[])
   const [keyword,setKeyword] = useState('')
   const onSearch = (e) => {
-    const filteredRows = rows.filter(row => row.name === e.target.value || row.dept === e.target.value);
-    if(filteredRows.length > 0) {
-      setRows([...filteredRows]);
+
+    if(e.target.value.length > 0) {
+      const filteredRows = rows.filter(row => row.name.search(e.target.value) > -1 || row.dept.search(e.target.value) > -1 || row.skills.search(e.target.value)  > -1);
+      if(filteredRows.length > 0) {
+        setRows([...filteredRows]);
+      } else {
+        const rowsold = JSON.parse(localStorage.getItem('rows'));
+        setRows(rowsold);
+      }
     } else {
-      const rowsold = JSON.parse(localStorage.getItem('rows'));
-      setRows(rowsold);
+      setRows(JSON.parse(localStorage.getItem('rows')));
     }
+    
+  
+  
   }
   const onAdd =(e) => {
     const values = rows;
