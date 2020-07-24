@@ -43,6 +43,11 @@ function Table(props) {
    }
 
    const cancel = () => {
+    let rowsNew = rows;
+    if(!eMode) {
+      rowsNew.pop();
+      setNewValues(rowsNew);
+    }
     setRow({key:null,value:{}})
     seteMode(false);
    }
@@ -59,7 +64,7 @@ const inputElement = (placeHolder,i,field) => ( <input placeholder={placeHolder}
             </tr>
            <tbody>
                    {rows.map((r,i) =>
-                    <>{(((!eMode || i !== row.key))) ? 
+                    <>{(!eMode && i !== row.key) ? 
                     <tr>
                         <td>{r.name === '' ?  inputElement('Name',i,'name') : r.name}</td>
                         <td>{r.dept === '' ?  inputElement('Department',i,'dept') : r.dept}</td>
