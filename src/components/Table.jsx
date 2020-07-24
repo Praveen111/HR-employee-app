@@ -26,10 +26,10 @@ function Table(props) {
     }
 
    const saveValue = (e) => {
-           
             const {name,dept,skills} = row.value;
-          console.log('save',row.value)
-            if(name === undefined || dept === undefined || skills === undefined) {
+            if((name === undefined || name.length === 0) ||
+               ( dept === undefined || dept.length === 0 )|| 
+               (skills === undefined || skills.length === 0)) {
               alert('Please add values to save');
               return;
             } else {
