@@ -40,4 +40,18 @@
 .center {
   margin-right: auto;
   margin-left: auto;
+  width: 60%;
+}
+
+table {
+  border-collapse: collapse !important;
+}
+
+table  > tbody > tr > td {
+width: 10%;
+
+}
+
+table, tbody {
+  border: 1px solid black;
 }

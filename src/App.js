@@ -11,7 +11,7 @@ function App() {
   }]);
 
   useEffect(() => {
-  localStorage.setItem('rows',rows);
+  localStorage.setItem('rows',JSON.stringify(rows));
   return () => localStorage.removeItem('rows');
   },[])
   const [keyword,setKeyword] = useState('')
@@ -31,6 +31,7 @@ function App() {
 
   const newValues = (rows) =>{
     const values = rows;
+    console.log('new Values',rows);
     setRows([...values]);
     localStorage.setItem('rows',JSON.stringify(values));
   }
@@ -39,12 +40,11 @@ function App() {
     const rowsNew = [...rows];
     const i = rowsNew.indexOf(data)
     rowsNew.splice(i,1);
-    localStorage.setItem('rows',rowsNew);
+    localStorage.setItem('rows',JSON.stringify(rowsNew));
     setRows([...rowsNew]);
    
   }
 
-  console.log("Parent",rows);
   return (
     <div className="App">
     <h3>Welcome To HR System</h3>
